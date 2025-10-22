@@ -1,18 +1,17 @@
 set( DEMO_NAME "mqtt_mutual" )
 
-# Include MQTT library's source and header path variables.
-include( ${ROOT_DIR}/libraries/standard/coreMQTT/mqttFilePaths.cmake )
+set(SDK_DIR ${CMAKE_SOURCE_DIR}/aws-iot-device-sdk-embedded-c)
 
-# Include backoffAlgorithm library file path configuration.
-include( ${ROOT_DIR}/libraries/standard/backoffAlgorithm/backoffAlgorithmFilePaths.cmake )
+include(${SDK_DIR}/libraries/standard/coreMQTT/mqttFilePaths.cmake)
+include(${SDK_DIR}/libraries/standard/backoffAlgorithm/backoffAlgorithmFilePaths.cmake)
 
 # CPP files are searched for supporting CI build checks that verify C++ linkage of the coreMQTT library
-file( GLOB DEMO_FILE "${DEMO_NAME}.c*" )
+file(GLOB DEMO_FILE "${CMAKE_CURRENT_LIST_DIR}/${DEMO_NAME}.c")
 
 # Demo target.
 add_executable(
     ${DEMO_NAME}
-        "${DEMO_FILE}"
+        ${DEMO_FILE}
         ${MQTT_SOURCES}
         ${MQTT_SERIALIZER_SOURCES}
         ${BACKOFF_ALGORITHM_SOURCES}

@@ -87,7 +87,7 @@
  * ROOT_CA_CERT_PATH to the absolute path if this demo is executed from elsewhere.
  */
 #ifndef ROOT_CA_CERT_PATH
-    #define ROOT_CA_CERT_PATH    "/home/debian/aws-iot/aws-iot-device-sdk-embedded-c/certs/AmazonRootCA1.pem"
+    #define ROOT_CA_CERT_PATH    "/home/debian/BBB_IoT_App/certs/AmazonRootCA1.pem"
 #endif
 
 /**
@@ -101,7 +101,7 @@
  *
  */
 
-#define CLIENT_CERT_PATH    "/home/debian/aws-iot/aws-iot-device-sdk-embedded-c/certs/bbb_cli.pem"
+#define CLIENT_CERT_PATH    "/home/debian/BBB_IoT_App/certs/bbb_cli.pem"
 
 /**
  * @brief Path of the file containing the client's private key.
@@ -114,7 +114,7 @@
  *
  */
 
- #define CLIENT_PRIVATE_KEY_PATH    "/home/debian/aws-iot/aws-iot-device-sdk-embedded-c/certs/bbb_cli.key"
+ #define CLIENT_PRIVATE_KEY_PATH    "/home/debian/BBB_IoT_App/certs/bbb_cli.key"
 
 /**
  * @brief The username value for authenticating client to MQTT broker when

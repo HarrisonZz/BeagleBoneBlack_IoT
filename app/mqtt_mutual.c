@@ -29,12 +29,12 @@
  * MQTT message broker in this example. Define ROOT_CA_CERT_PATH for server
  * authentication in the client. Client authentication can be achieved in either
  * of the 2 different ways mentioned below.
- * 1. Define CLIENT_CERT_PATH and CLIENT_PRIVATE_KEY_PATH in demo_config.h
+ * 1. Define CLIENT_CERT_PATH and CLIENT_PRIVATE_KEY_PATH in config.h
  *    for client authentication to be done based on the client certificate
  *    and client private key. More details about this client authentication
  *    can be found in the link below.
  *    https://docs.aws.amazon.com/iot/latest/developerguide/client-authentication.html
- * 2. Define CLIENT_USERNAME and CLIENT_PASSWORD in demo_config.h for client
+ * 2. Define CLIENT_USERNAME and CLIENT_PASSWORD in config.h for client
  *    authentication to be done using a username and password. More details about
  *    this client authentication can be found in the link below.
  *    https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
@@ -60,7 +60,7 @@
 #include <unistd.h>
 
 /* Include Demo Config as the first non-system header. */
-#include "demo_config.h"
+#include "config.h"
 
 /* MQTT API headers. */
 #include "core_mqtt.h"
@@ -83,36 +83,36 @@
  * Throw compilation error if the below configs are not defined.
  */
 #ifndef AWS_IOT_ENDPOINT
-    #error "Please define AWS IoT MQTT broker endpoint(AWS_IOT_ENDPOINT) in demo_config.h."
+    #error "Please define AWS IoT MQTT broker endpoint(AWS_IOT_ENDPOINT) in config.h."
 #endif
 #ifndef ROOT_CA_CERT_PATH
-    #error "Please define path to Root CA certificate of the MQTT broker(ROOT_CA_CERT_PATH) in demo_config.h."
+    #error "Please define path to Root CA certificate of the MQTT broker(ROOT_CA_CERT_PATH) in config.h."
 #endif
 #ifndef CLIENT_IDENTIFIER
-    #error "Please define a unique client identifier, CLIENT_IDENTIFIER, in demo_config.h."
+    #error "Please define a unique client identifier, CLIENT_IDENTIFIER, in config.h."
 #endif
 
 /* The AWS IoT message broker requires either a set of client certificate/private key
  * or username/password to authenticate the client. */
 #ifndef CLIENT_USERNAME
     #ifndef CLIENT_CERT_PATH
-        #error "Please define path to client certificate(CLIENT_CERT_PATH) in demo_config.h."
+        #error "Please define path to client certificate(CLIENT_CERT_PATH) in config.h."
     #endif
     #ifndef CLIENT_PRIVATE_KEY_PATH
-        #error "Please define path to client private key(CLIENT_PRIVATE_KEY_PATH) in demo_config.h."
+        #error "Please define path to client private key(CLIENT_PRIVATE_KEY_PATH) in config.h."
     #endif
 #else
 
 /* If a username is defined, a client password also would need to be defined for
  * client authentication. */
     #ifndef CLIENT_PASSWORD
-        #error "Please define client password(CLIENT_PASSWORD) in demo_config.h for client authentication based on username/password."
+        #error "Please define client password(CLIENT_PASSWORD) in config.h for client authentication based on username/password."
     #endif
 
 /* AWS IoT MQTT broker port needs to be 443 for client authentication based on
  * username/password. */
     #if AWS_MQTT_PORT != 443
-        #error "Broker port, AWS_MQTT_PORT, should be defined as 443 in demo_config.h for client authentication based on username/password."
+        #error "Broker port, AWS_MQTT_PORT, should be defined as 443 in config.h for client authentication based on username/password."
     #endif
 #endif /* ifndef CLIENT_USERNAME */
 
