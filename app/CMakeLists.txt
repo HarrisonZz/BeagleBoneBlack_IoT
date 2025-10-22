@@ -5,6 +5,9 @@ set(SDK_DIR ${CMAKE_SOURCE_DIR}/aws-iot-device-sdk-embedded-c)
 include(${SDK_DIR}/libraries/standard/coreMQTT/mqttFilePaths.cmake)
 include(${SDK_DIR}/libraries/standard/backoffAlgorithm/backoffAlgorithmFilePaths.cmake)
 
+
+find_package(CURL REQUIRED)
+
 # CPP files are searched for supporting CI build checks that verify C++ linkage of the coreMQTT library
 file(GLOB DEMO_FILE "${CMAKE_CURRENT_LIST_DIR}/${DEMO_NAME}.c")
 
@@ -15,6 +18,7 @@ add_executable(
         ${MQTT_SOURCES}
         ${MQTT_SERIALIZER_SOURCES}
         ${BACKOFF_ALGORITHM_SOURCES}
+        ${CMAKE_CURRENT_LIST_DIR}/http_client.c
 )
 
 target_link_libraries(
@@ -24,6 +28,18 @@ target_link_libraries(
         openssl_posix
 )
 
+target_link_libraries(
+    ${DEMO_NAME}
+    PRIVATE
+        ${CURL_LIBRARIES}
+)
+
+target_include_directories(
+    ${DEMO_NAME}
+    PRIVATE
+        ${CURL_INCLUDE_DIRS}
+)
+
 target_include_directories(
     ${DEMO_NAME}
     PUBLIC
@@ -31,6 +47,7 @@ target_include_directories(
         ${BACKOFF_ALGORITHM_INCLUDE_PUBLIC_DIRS}
         ${LOGGING_INCLUDE_DIRS}
         ${AWS_DEMO_INCLUDE_DIRS}
+        ${SDK_DIR}/demos/include
         ${CMAKE_CURRENT_LIST_DIR}
 )
 

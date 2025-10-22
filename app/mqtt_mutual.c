@@ -77,6 +77,7 @@
 
 /* AWS IoT Core TLS ALPN definitions for MQTT authentication */
 #include "aws_iot_alpn_defs.h"
+#include "http_client.h"
 
 /**
  * These configuration settings are required to run the mutual auth demo.
@@ -1080,10 +1081,31 @@ static void eventCallback( MQTTContext_t * pMqttContext,
                 if (strcmp(state, "ON") == 0)
                 {
                     LogInfo( ( "Received ON command\n" ));
+
+                    if (!http_led_control(state))
+                    {
+                        LogError( ( "Send HTTP Post Failed\n" ));
+                    }
+                    else
+                    {
+                        LogInfo( ( "Send HTTP Post Successed\n" ));
+
+                    }
                 }
                 else if (strcmp(state, "OFF") == 0)
                 {
                     LogInfo( ( "Received OFF command\n" ));
+
+
+                    if (!http_led_control(state))
+                    {
+                        LogError( ( "Send HTTP Post Failed\n" ));
+                    }
+                    else
+                    {
+                        LogInfo( ( "Send HTTP Post Successed\n" ));
+
+                    }
                 }
                 else
                 {
@@ -1576,6 +1598,12 @@ int main( int argc,
     /* Set the pParams member of the network context with desired transport. */
     networkContext.pParams = &opensslParams;
 
+    if (!http_client_init())
+    {
+        printf("HTTP init failed\n");
+        return -1;
+    }
+
     /* Seed pseudo random number generator (provided by ISO C standard library) for
      * use by retry utils library when retrying failed network operations. */
 
@@ -1639,6 +1667,8 @@ int main( int argc,
 
             /* End TLS session, then close TCP connection. */
             ( void ) Openssl_Disconnect( &networkContext );
+
+            http_client_cleanup();
         }
 
         if( returnStatus == EXIT_SUCCESS )
